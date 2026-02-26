@@ -1,0 +1,286 @@
+<!doctype html> <!-- Говорит браузеру, что это современный HTML5 -->
+{% load static %}
+<html lang="ru"> <!--Основной контейнер с указанием языка -->
+    <head> <!-- Мозги» страницы: кодировка, настройки отображения на мобильных и название вкладки -->
+
+        <!-- Кодировка и адаптивность (база) -->
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <!-- SEO -->
+        <title>Заголовок страницы (до 60 символов)</title>
+        <meta name="description" content="Краткое и емкое описание страницы для поиска (до 160 символов).">
+        <link rel="canonical" href="https://site.com">
+
+        <!-- Соцсети (Open Graph для Telegram, WhatsApp, VK) -->
+        <meta property="og:type" content="website">
+        <meta property="og:url" content="https://site.com">
+        <meta property="og:title" content="Заголовок для соцсетей">
+        <meta property="og:description" content="Описание для предпросмотра в мессенджерах.">
+        <meta property="og:image" content="https://site.com">
+
+        <!-- Иконка -->
+        <link rel="icon" href="/favicon.ico">
+
+        <!-- Bootstrap CSS -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+        <!-- Внешний css -->
+        <link rel="stylesheet"  href="{% static 'css/style.css' %}">
+        <!-- rel="stylesheet" — указывает, что мы подключаем таблицу стилей -->
+        <!-- href="style.css" — Путь к файлу. Если файл лежит в той же папке, просто укажите его название -->
+        <!-- Внутренние стили для документа -->
+        <style>
+            header {
+                text-allign: center;
+            }
+        </style>
+        <!-- 1. Добавьте это в <head> вашего сайта -->
+        <link rel="stylesheet" href="https://unpkg.com">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com">
+    </head>
+    <body> <!-- «тело», где живет всё, что видит пользователь -->
+        <!-- HTML5 предоставляет набор тегов для удобной разметки стандартной структуры большинства страниц -->
+        <!-- Base Template -->
+<header>
+    <nav class="navbar fixed-top navbar-expand-lg bg-success navbar-dark shadow">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">Панель навигации</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <!-- Класс ms-auto прижмет всё содержимое этого div к правому краю -->
+                <div class="d-flex ms-auto align-items-center">
+
+                    <div>
+                        {% if user.is_authenticated %}
+                            <!-- Если пользователь вошел -->
+                            <span>Привет, {{ user.username }}!</span>
+
+                            <form action="{% url 'logout' %}" method="post" style="display:inline;">
+                                {% csrf_token %}
+                                <button type="submit">Выйти</button>
+                            </form>
+                        {% else %}
+                            <!-- Если гость -->
+                            <a class="login" href="{% url 'login' %}">Войти</a> |
+                            <a class="login" href="{% url 'register' %}">Регистрация</a>
+                        {% endif %}
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <button id="theme-toggle" class="btn btn-sm btn-outline-light">Сменить тему 🌙</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<div class="container-fluid" style="margin-top: 70px;"> <!-- Отступ сверху из-за fixed navbar -->
+    <div class="row">
+        <!-- Sidebar -->
+        <nav id="sidebarMenu" class="col-lg-1 d-lg-block bg-light shadow-sm offcanvas-lg offcanvas-start border-end " style="min-height: 100vh;">
+            <div class="offcanvas-header d-lg-none border-bottom">
+                <h5 class="offcanvas-title">Навигация</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#sidebarMenu"></button>
+            </div>
+
+            <div class="offcanvas-body w-100 p-0">.
+                <ul class="nav flex-column w-100 py-2" id="mainNav">
+                    <!-- Элемент Главная -->
+                    <li class="nav-item">
+                        <a class="nav-link-custom" href="/" rel="dofollow" aria-label="Главная">
+                            <div class="tooltip-container">
+                                <svg class="home-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <!-- Крыша и стены -->
+                                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                                    <!-- Дверь -->
+                                    <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                                </svg>
+                                <span class="tooltip-text">Главная</span> <!-- Добавлено название -->
+                            </div>
+                        </a>
+                    </li>
+                    <hr class="mx-2">
+                    <!-- Элемент О нас -->
+                    <li class="nav-item">
+                        <a class="nav-link-custom" href="/about" rel="dofollow" aria-label="Главная">
+                            <div class="tooltip-container">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+                                    <circle cx="9" cy="7" r="4"></circle>
+                                    <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
+                                    <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                                </svg>
+                                <span class="tooltip-text">О нас</span> <!-- Добавлено название -->
+                            </div>
+                        </a>
+                    </li>
+                    <hr class="mx-2">
+                    <!-- Элемент Новости -->
+                    <li class="nav-item">
+                        <a class="nav-link-custom" href="/post_list" rel="dofollow" aria-label="Новости">
+                            <div class="tooltip-container">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"/>
+                                    <path d="M18 14h-8"/>
+                                    <path d="M15 18h-5"/>
+                                    <path d="M10 6h8v4h-8V6Z"/>
+                                </svg>
+                                <span class="tooltip-text">Новости</span> <!-- Добавлено название -->
+                            </div>
+                        </a>
+                    </li>
+                    <hr class="mx-2">
+                    <li class="nav-item">
+                        <a class="nav-link-custom" href="/contact" rel="dofollow" aria-label="Контакты">
+                            <div class="tooltip-container">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M16 2v2"/>
+                                    <path d="M7 2v2"/>
+                                    <path d="M5 4h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z"/>
+                                    <path d="M16 11a4 4 0 0 0-8 0"/>
+                                    <circle cx="12" cy="8" r="2"/>
+                                    <path d="M18 18H6"/>
+                                    <path d="M18 14H6"/>
+                                </svg>
+                                <span class="tooltip-text">Контакты</span> <!-- Добавлено название -->
+                            </div>
+                        </a>
+                    </li>
+                    <hr class="mx-2">
+                    <!-- Выпадающее меню -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link-custom" href="#" rel="dofollow" aria-label="Галерея">
+                            <div class="tooltip-container">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="26" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    !-- Иконка 1: Горы -->
+                                    <path d="M14 10l-4 6H5l5-7 4 5zm3-2l4 9H7l5-10 5 10z" fill="currentColor"/>
+                                </svg>
+                                <span class="tooltip-text">Галерея</span> <!-- Добавлено название -->
+                            </div>
+                        </a>
+                        <!-- Само выпадающее меню -->
+                        <ul class="dropdown-menu">
+                            <li class="nav-item">
+                                <a class="nav-link-custom" href="/video" rel="dofollow" aria-label="Видео">
+                                    <div class="tooltip-container">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14.5v-9l6 4.5-6 4.5z"/>
+                                        </svg>
+                                        <span class="tooltip-text">Видео</span> <!-- Добавлено название -->
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link-custom" href="/photo" rel="dofollow" aria-label="Фото">
+                                    <div class="tooltip-container">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <rect width="100" height="100" fill="#4CAF50" />
+                                            <circle cx="50" cy="50" r="30" fill="white" />
+                                        </svg>
+                                        <span class="tooltip-text">Фото</span> <!-- Добавлено название -->
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link-custom" href="/support" rel="dofollow" aria-label="Поддержка">
+                                    <div class="tooltip-container">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <circle cx="50" cy="50" r="40" fill="royalblue" />
+                                        </svg>
+                                        <span class="tooltip-text">Поддержка</span> <!-- Добавлено название -->
+                                    </div>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="col-lg-10 ms-sm-auto px-md-4 py-4">
+            <!-- Кнопка вызова меню на мобилках -->
+            <button class="btn btn-primary d-lg-none mb-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebarMenu">
+                <i class="bi bi-list"></i> Меню
+            </button>
+
+            {% block content %}
+            <h1>Контент страницы</h1>
+            {% endblock %}
+        </main>
+    </div>
+</div>
+
+<footer class="main-footer bg-dark text-white mt-5 py-5">
+    <div class="container">
+        <div class="row g-4">
+            <!-- Колонка 1: Подписка -->
+            <div class="col-md-4 footer-section">
+                <h3>Будьте в курсе</h3>
+                <p class="text-white-50">Свежие новости на почту:</p>
+                <form class="input-group mb-3" action="#" method="POST">
+                    <input type="email" class="form-control" placeholder="Ваш email" required aria-label="Email">
+                    <button class="btn btn-success" type="submit">OK</button>
+                </form>
+                <div class="social-icons d-flex gap-2">
+                    <a href="https://t.me" target="_blank" rel="noopener" aria-label="Telegram">
+                        <img src="https://img.icons8.com/?size=96&id=7jrHorBRorpX&format=gif&color=f7f7f7" alt="" width="30" height="30">
+                    </a>
+                    <a href="https://wa.me" target="_blank" rel="noopener" aria-label="WhatsApp">
+                        <img src="https://img.icons8.com/?size=96&id=uZWiLUyryScN&format=gif&color=f7f7f7" alt="" width="30" height="30">
+                    </a>
+                    <a href="https://vk.com" target="_blank" rel="noopener" aria-label="ВКонтакте">
+                        <img src="https://img.icons8.com/?size=96&id=61Da3vxgYyFC&format=gif&color=f7f7f7" alt="" width="30" height="30">
+                    </a>
+                    <a href="https://youtube.com" target="_blank" rel="noopener" aria-label="YouTube">
+                        <img src="https://img.icons8.com/?size=96&id=3lD0uoEr2qZa&format=gif&color=f7f7f7" alt="" width="30" height="30">
+                    </a>
+                    <a href="https://instagram.com" target="_blank" rel="noopener" aria-label="Instagram">
+                        <img src="https://img.icons8.com/?size=96&id=ZRiAFreol5mE&format=gif&color=f7f7f7" alt="" width="30" height="30">
+                    </a>
+                    <a href="https://tiktok.com" target="_blank" rel="noopener" aria-label="TikTok">
+                        <img src="https://img.icons8.com/?size=80&id=HjzuIwamFPXs&format=gif&color=f7f7f7" alt="" width="30" height="30">
+                    </a>
+                </div>
+            </div>
+
+            <!-- Колонка 2: Навигация -->
+            <div class="col-md-4 footer-section px-md-5">
+                <h3>Навигация</h3>
+                <ul class="list-unstyled">
+                    <li><a href="/about" class="text-white-50 text-decoration-none">О нас</a></li>
+                    <li><a href="/services" class="text-white-50 text-decoration-none">Наши услуги</a></li>
+                    <li><a href="/contact" class="text-white-50 text-decoration-none">Контакты</a></li>
+                </ul>
+            </div>
+
+            <!-- Колонка 3: Карта -->
+            <div class="col-md-4 footer-section">
+                <h3>Мы на карте</h3>
+                <div class="ratio ratio-16x9 rounded overflow-hidden">
+                    <iframe src="https://www.google.com" width="100%" height="210" style="border:0; display: block;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </div>
+            </div>
+        </div>
+        <div class="text-center mt-5 pt-4 border-top border-secondary">
+            <p class="text-white-50 small">&copy; 2026 Возраждение. Все права защищены.</p>
+        </div>
+    </div>
+</footer>
+
+        <!-- 3. Скрипты перед </body> -->
+        <script src="https://unpkg.com"></script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                AOS.init({
+                    once: true,
+                    duration: 800 // добавил длительность для плавности
+                });
+            });
+        </script>
+        <<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+        <script src="{% static 'js/my_script.js' %}"></script>
+    </body>
+</html>

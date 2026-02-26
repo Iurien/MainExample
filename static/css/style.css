@@ -1,0 +1,314 @@
+
+
+/* Темная тема */
+:root {
+    --bg-color: #ffffff;
+    --text-color: #000080;
+    --btn-bg: #eeeeee;
+}
+/* Стили для темной темы */
+[data-bs-theme="dark"] {
+    --bg-color: #121212;
+    --text-color: #f8f9fa;
+    --btn-bg: #333333;
+}
+/* Применяем переменные к элементам */
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    transition: background-color 0.3s ease, color 0.3s ease; /* Плавный переход */
+}
+#theme-toggle {
+    background-color: var(--btn-bg);
+    color: var(--text-color);
+    border: 1px solid #ccc;
+    padding: 8px 16px;
+    margin-left: 10px;
+    cursor: pointer;
+    border-radius: 40px;
+}
+
+
+/* CSS (Базовые стили Дзена) */
+.tooltip-container {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+}
+.tooltip-text {
+  visibility: hidden;
+  background-color: #1E90FF;
+  color: #fff;
+  text-align: center;
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 12px;
+  /* Позиционирование справа */
+  position: absolute;
+  top: 50%;
+  left: 110%; /* Смещаем вправо от иконки */
+  transform: translateY(-50%); /* Центрируем по вертикали */
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.2s;
+  z-index: 1;
+}
+.tooltip-container:hover .tooltip-text {
+  opacity: 1;
+  visibility: visible;
+}
+/* Треугольник (хвостик), смотрящий влево */
+.tooltip-text::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: 100%; /* Прижимаем к левому краю текста */
+  margin-top: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: transparent #1E90FF transparent transparent; /* Цвет стрелки совпадает с фоном */
+}
+
+
+
+/* Выпадающее меню */
+/* Контейнер для позиционирования */
+.nav-item.dropdown {
+    position: relative;
+    display: inline-block;
+    list-style: none;
+}
+/* Стилизация иконки/ссылки */
+.nav-link-custom {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    padding: 8px;
+    color: #333;
+}
+/* Само выпадающее меню */
+.dropdown-menu {
+    display: none; /* Скрыто по умолчанию */
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #fff;
+    min-width: 100px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+    border-radius: 4px;
+    padding: 8px 0;
+    margin: 0;
+    list-style: none;
+    z-index: 1000;
+}
+/* Ссылки внутри меню */
+.dropdown-menu li a {
+    color: #333;
+    padding: 10px 16px;
+    text-decoration: none;
+    display: block;
+    transition: background 0.2s;
+}
+.dropdown-menu li a:hover {
+    background-color: #f5f5f5;
+}
+/* Показ меню при наведении на родительский li */
+.nav-item.dropdown:hover .dropdown-menu {
+    display: block;
+}
+
+
+
+/* Нижний колонтитул */
+/* Основные переменные */
+:root {
+  --glass-bg: rgba(255, 255, 255, 0.05);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --accent-color: #00d2ff;
+  --text-main: #f7f7f7;
+}
+.main-footer {
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+  padding: 60px 20px 20px;
+  color: var(--text-main);
+  font-family: 'Segoe UI', sans-serif;
+  position: relative;
+  overflow: hidden;
+}
+.footer-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 40px;
+  justify-content: space-between;
+}
+.footer-section {
+  flex: 1 1 280px;
+}
+.footer-section h3 {
+  font-size: 1.4rem;
+  margin-bottom: 20px;
+  position: relative;
+  padding-bottom: 8px;
+}
+/* Линия под заголовком */
+.footer-section h3::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 40px;
+  height: 2px;
+  background: var(--accent-color);
+}
+/* Стеклянная форма подписки */
+.subscribe-form {
+  display: flex;
+  margin: 20px 0;
+  background: var(--glass-bg);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--glass-border);
+  border-radius: 30px;
+  padding: 5px;
+}
+.subscribe-form input {
+  background: transparent;
+  border: none;
+  padding: 10px 15px;
+  color: white;
+  width: 100%;
+  outline: none;
+}
+.subscribe-form button {
+  background: var(--accent-color);
+  border: none;
+  color: #1a1a2e;
+  font-weight: bold;
+  padding: 10px 20px;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.subscribe-form button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 15px var(--accent-color);
+}
+/* Анимация ссылок */
+.footer-links {
+  list-style: none;
+  padding: 0;
+}
+.footer-links li {
+  margin-bottom: 12px;
+}
+.footer-links a {
+  color: #ccc;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  display: inline-block;
+}
+.footer-links a:hover {
+  color: var(--accent-color);
+  transform: translateX(8px);
+}
+/* Соцсети */
+.social-icons {
+  display: flex;
+  gap: 15px;
+  margin-top: 25px;
+}
+.social-icons a {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  padding: 8px;
+  border-radius: 50%;
+  transition: background 0.3s, transform 0.3s;
+  line-height: 0;
+}
+.social-icons a:hover {
+  background: var(--accent-color);
+  transform: translateY(-5px);
+}
+.social-icons img {
+  filter: brightness(1);
+}
+/* Карта с эффектом скругления */
+.map-wrapper {
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  border: 1px solid var(--glass-border);
+}
+/* Адаптивность для мобильных */
+@media (max-width: 768px) {
+  .footer-container {
+    flex-direction: column;
+    text-align: center;
+  }
+  .footer-section h3::after {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  .social-icons {
+    justify-content: center;
+  }
+  .footer-links a:hover {
+    transform: translateY(-3px);
+  }
+}
+/* Пульсация кнопки OK */
+@keyframes pulse-blue {
+  0% { box-shadow: 0 0 0 0 rgba(0, 210, 255, 0.4); }
+  70% { box-shadow: 0 0 0 10px rgba(0, 210, 255, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(0, 210, 255, 0); }
+}
+.subscribe-form button {
+  animation: pulse-blue 2s infinite;
+}
+/* Эффект наведения на карту */
+.map-wrapper iframe {
+  filter: grayscale(20%) contrast(1.1);
+  transition: filter 0.5s ease;
+}
+.map-wrapper:hover iframe {
+  filter: grayscale(0%) contrast(1.2);
+}
+
+
+
+/* CSS Регистрации */
+.reg-card {
+    background: white;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1); width: 300px;
+}
+input {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+button {
+    width: 100%;
+    padding: 10px;
+    background: #87CEFA;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+button:hover {
+    background: #0056b3;
+}
+h2 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+.login {
+    color: #00FFFF;
+}
+.login:hover {
+    color: #FFFAFA;
+}

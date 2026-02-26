@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    <div class="reg-card">
+        <h2>Создать аккаунт</h2>
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}  <!-- Django сам создаст нужные input с правильными именами -->
+            <button type="submit">Зарегистрироваться</button>
+        </form>
+        {% if form.errors %}
+            <div class="errors">
+                {{ form.errors }}
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

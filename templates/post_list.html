@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Список постов{% endblock %}
+
+{% block content %}
+    <h1>Блог</h1>
+    {% for post in posts %}
+        <div class="post">
+            <h2><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a></h2>
+            <p>Опубликовано: {{ post.published_date }}</p>
+            {% if post.image %}
+                <img src="{{ post.image.url }}" alt="{{ post.title }}" width="300">
+            {% endif %}
+            <p>{{ post.text|truncatewords:30 }}</p>
+        </div>
+        <hr>
+    {% endfor %}
+{% endblock %}
