@@ -23,7 +23,7 @@
         <link rel="icon" href="/favicon.ico">
 
         <!-- Bootstrap CSS -->
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
         <!-- Внешний css -->
         <link rel="stylesheet"  href="{% static 'css/style.css' %}">
         <!-- rel="stylesheet" — указывает, что мы подключаем таблицу стилей -->
@@ -41,7 +41,7 @@
     <body> <!-- «тело», где живет всё, что видит пользователь -->
         <!-- HTML5 предоставляет набор тегов для удобной разметки стандартной структуры большинства страниц -->
         <!-- Base Template -->
-<header>
+        <header>
     <nav class="navbar fixed-top navbar-expand-lg bg-success navbar-dark shadow">
         <div class="container-fluid">
             <a class="navbar-brand" href="/">Панель навигации</a>
@@ -75,7 +75,7 @@
         </div>
     </nav>
 </header>
-
+<!-- Боковая панель -->
 <div class="container-fluid" style="margin-top: 70px;"> <!-- Отступ сверху из-за fixed navbar -->
     <div class="row">
         <!-- Sidebar -->
@@ -84,12 +84,11 @@
                 <h5 class="offcanvas-title">Навигация</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#sidebarMenu"></button>
             </div>
-
             <div class="offcanvas-body w-100 p-0">.
                 <ul class="nav flex-column w-100 py-2" id="mainNav">
                     <!-- Элемент Главная -->
                     <li class="nav-item">
-                        <a class="nav-link-custom" href="/" rel="dofollow" aria-label="Главная">
+                        <a class="nav-link-custom text-info" href="/" rel="dofollow" aria-label="Главная">
                             <div class="tooltip-container">
                                 <svg class="home-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                     <!-- Крыша и стены -->
@@ -104,7 +103,7 @@
                     <hr class="mx-2">
                     <!-- Элемент О нас -->
                     <li class="nav-item">
-                        <a class="nav-link-custom" href="/about" rel="dofollow" aria-label="Главная">
+                        <a class="nav-link-custom text-info" href="/about" rel="dofollow" aria-label="Главная">
                             <div class="tooltip-container">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                     <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
@@ -119,7 +118,7 @@
                     <hr class="mx-2">
                     <!-- Элемент Новости -->
                     <li class="nav-item">
-                        <a class="nav-link-custom" href="/post_list" rel="dofollow" aria-label="Новости">
+                        <a class="nav-link-custom text-info" href="/post_list" rel="dofollow" aria-label="Новости">
                             <div class="tooltip-container">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                     <path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"/>
@@ -133,7 +132,7 @@
                     </li>
                     <hr class="mx-2">
                     <li class="nav-item">
-                        <a class="nav-link-custom" href="/contact" rel="dofollow" aria-label="Контакты">
+                        <a class="nav-link-custom text-info" href="/contact" rel="dofollow" aria-label="Контакты">
                             <div class="tooltip-container">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                     <path d="M16 2v2"/>
@@ -151,19 +150,20 @@
                     <hr class="mx-2">
                     <!-- Выпадающее меню -->
                     <li class="nav-item dropdown">
-                        <a class="nav-link-custom" href="#" rel="dofollow" aria-label="Галерея">
+                        <!-- Добавлен data-bs-toggle и исправлен SVG -->
+                        <a class="nav-link-custom dropdown-toggle text-info" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Галерея">
                             <div class="tooltip-container">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="26" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    !-- Иконка 1: Горы -->
+                                    <!-- Исправлена скобка ниже -->
                                     <path d="M14 10l-4 6H5l5-7 4 5zm3-2l4 9H7l5-10 5 10z" fill="currentColor"/>
                                 </svg>
-                                <span class="tooltip-text">Галерея</span> <!-- Добавлено название -->
+                                <span class="tooltip-text">Галерея</span>
                             </div>
                         </a>
                         <!-- Само выпадающее меню -->
                         <ul class="dropdown-menu">
                             <li class="nav-item">
-                                <a class="nav-link-custom" href="/video" rel="dofollow" aria-label="Видео">
+                                <a class="nav-link-custom text-info" href="/video" rel="dofollow" aria-label="Видео">
                                     <div class="tooltip-container">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                             <path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14.5v-9l6 4.5-6 4.5z"/>
@@ -173,7 +173,7 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link-custom" href="/photo" rel="dofollow" aria-label="Фото">
+                                <a class="nav-link-custo text-infom" href="/photo" rel="dofollow" aria-label="Фото">
                                     <div class="tooltip-container">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                             <rect width="100" height="100" fill="#4CAF50" />
@@ -184,7 +184,7 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link-custom" href="/support" rel="dofollow" aria-label="Поддержка">
+                                <a class="nav-link-custom text-info" href="/support" rel="dofollow" aria-label="Поддержка">
                                     <div class="tooltip-container">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                             <circle cx="50" cy="50" r="40" fill="royalblue" />
@@ -207,7 +207,7 @@
             </button>
 
             {% block content %}
-            <h1>Контент страницы</h1>
+            <!--Контент страницы -->
             {% endblock %}
         </main>
     </div>
@@ -269,7 +269,7 @@
         </div>
     </div>
 </footer>
-
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
         <!-- 3. Скрипты перед </body> -->
         <script src="https://unpkg.com"></script>
         <script>
@@ -280,7 +280,7 @@
                 });
             });
         </script>
-        <<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
         <script src="{% static 'js/my_script.js' %}"></script>
     </body>
 </html>
