@@ -1,0 +1,74 @@
+
+
+/* Темная тема */
+:root {
+    --bg-color: #ffffff;
+    --text-color: #000080;
+    --btn-bg: #eeeeee;
+}
+/* Стили для темной темы */
+[data-bs-theme="dark"] {
+    --bg-color: #121212;
+    --text-color: #f8f9fa;
+    --btn-bg: #333333;
+}
+/* Применяем переменные к элементам */
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    transition: background-color 0.3s ease, color 0.3s ease; /* Плавный переход */
+}
+#theme-toggle {
+    background-color: var(--btn-bg);
+    color: var(--text-color);
+    border: 1px solid #ccc;
+    padding: 8px 16px;
+    margin-left: 10px;
+    cursor: pointer;
+    border-radius: 40px;
+}
+
+
+
+/* CSS Регистрации */
+.reg-card {
+    background-color: var(--btn-bg);
+    color: var(--text-color);
+
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1); width: 300px;
+}
+input {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+button {
+    width: 100%;
+    padding: 10px;
+    background: #87CEFA;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+button:hover {
+    background: #0056b3;
+}
+h2 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+.login {
+    color: #00FFFF;
+}
+.login:hover {
+    color: #FFFAFA;
+}
+
+
+

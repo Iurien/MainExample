@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ post.title }}{% endblock %}
+
+{% block content %}
+<div class="wall-container">
+    <div class='wall-item'>
+        <div class='text-news'>
+            <article>
+                <h1>{{ post.title }}</h1>
+
+                {% if post.published_date %}
+                    <time class="text-muted">{{ post.published_date|date:"d.m.Y H:i" }}</time>
+                {% endif %}
+
+                {% if post.image %}
+                    <div class="main-image" style="margin: 20px 0;">
+                        <img src="{{ post.image.url }}" alt="{{ post.title }}" style="max-width: 100%; height: auto; border-radius: 8px;">
+                    </div>
+                {% endif %}
+
+                <div class="content">
+                    {# safe позволяет отображать HTML-теги, если вы используете редактор типа CKEditor #}
+                    {{ post.text|safe }}
+                </div>
+
+                <p style="margin-top: 20px;">
+                    <a href="{% url 'post_list' %}">← Назад к списку</a>
+                </p>
+            </article>
+
+            <hr>
+
+            <section class="comments">
+                <h3>Комментарии ({{ comments.count }}):</h3>
+
+                {% for comment in comments %}
+                    <div class="comment" style="margin-bottom: 15px; padding: 10px; border-bottom: 1px solid #eee;">
+                        <strong>{{ comment.author }}</strong>
+                        <small class="text-muted">({{ comment.created_date|date:"d.m.Y H:i" }})</small>
+                        <div style="margin-top: 5px;">
+                            {{ comment.text|linebreaks }}
+                        </div>
+                    </div>
+                {% empty %}
+                    <p>Пока нет комментариев. Будьте первым!</p>
+                {% endfor %}
+
+                <hr>
+
+                {% if user.is_authenticated %}
+                    <h4>Оставить комментарий:</h4>
+                    <form method="POST" class="comment-form">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <button type="submit" class="btn-submit">Отправить как {{ user.username }}</button>
+                    </form>
+                {% else %}
+                    <p><a href="{% url 'login' %}">Войдите</a>, чтобы оставить комментарий.</p>
+                {% endif %}
+            </section>
+        </div>
+    </div>
+</div>
+{% endblock %}

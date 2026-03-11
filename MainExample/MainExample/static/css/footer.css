@@ -1,0 +1,153 @@
+/* Нижний колонтитул */
+/* Основные переменные */
+:root {
+  --glass-bg: rgba(255, 255, 255, 0.05);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --accent-color: #00d2ff;
+  --text-main: #f7f7f7;
+}
+.main-footer {
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+  padding: 60px 20px 20px;
+  color: var(--text-main);
+  font-family: 'Segoe UI', sans-serif;
+  position: relative;
+  overflow: hidden;
+}
+.footer-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 40px;
+  justify-content: space-between;
+}
+.footer-section {
+  flex: 1 1 280px;
+}
+.footer-section h3 {
+  font-size: 1.4rem;
+  margin-bottom: 20px;
+  position: relative;
+  padding-bottom: 8px;
+}
+/* Линия под заголовком */
+.footer-section h3::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 40px;
+  height: 2px;
+  background: var(--accent-color);
+}
+/* Стеклянная форма подписки */
+.subscribe-form {
+  display: flex;
+  margin: 20px 0;
+  background: var(--glass-bg);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--glass-border);
+  border-radius: 30px;
+  padding: 5px;
+}
+.subscribe-form input {
+  background: transparent;
+  border: none;
+  padding: 10px 15px;
+  color: white;
+  width: 100%;
+  outline: none;
+}
+.subscribe-form button {
+  background: var(--accent-color);
+  border: none;
+  color: #1a1a2e;
+  font-weight: bold;
+  padding: 10px 20px;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.subscribe-form button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 15px var(--accent-color);
+}
+/* Анимация ссылок */
+.footer-links {
+  list-style: none;
+  padding: 0;
+}
+.footer-links li {
+  margin-bottom: 12px;
+}
+.footer-links a {
+  color: #ccc;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  display: inline-block;
+}
+.footer-links a:hover {
+  color: var(--accent-color);
+  transform: translateX(8px);
+}
+/* Соцсети */
+.social-icons {
+  display: flex;
+  gap: 15px;
+  margin-top: 25px;
+}
+.social-icons a {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  padding: 8px;
+  border-radius: 50%;
+  transition: background 0.3s, transform 0.3s;
+  line-height: 0;
+}
+.social-icons a:hover {
+  background: var(--accent-color);
+  transform: translateY(-5px);
+}
+.social-icons img {
+  filter: brightness(1);
+}
+/* Карта с эффектом скругления */
+.map-wrapper {
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  border: 1px solid var(--glass-border);
+}
+/* Адаптивность для мобильных */
+@media (max-width: 768px) {
+  .footer-container {
+    flex-direction: column;
+    text-align: center;
+  }
+  .footer-section h3::after {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  .social-icons {
+    justify-content: center;
+  }
+  .footer-links a:hover {
+    transform: translateY(-3px);
+  }
+}
+/* Пульсация кнопки OK */
+@keyframes pulse-blue {
+  0% { box-shadow: 0 0 0 0 rgba(0, 210, 255, 0.4); }
+  70% { box-shadow: 0 0 0 10px rgba(0, 210, 255, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(0, 210, 255, 0); }
+}
+.subscribe-form button {
+  animation: pulse-blue 2s infinite;
+}
+/* Эффект наведения на карту */
+.map-wrapper iframe {
+  filter: grayscale(20%) contrast(1.1);
+  transition: filter 0.5s ease;
+}
+.map-wrapper:hover iframe {
+  filter: grayscale(0%) contrast(1.2);
+}

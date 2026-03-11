@@ -1,0 +1,34 @@
+/*
+ * jquery.popeye.css 2.1
+ * Обязательные CSS-классы для jQuery.popeye
+ * Авторские права (C) 2011 Кристоф Шуэсслер (schreib@herr-schuessler.de)
+ * Эта программа является свободным программным обеспечением; вы можете распространять ее и/или изменять
+ * ее в соответствии с условиями Стандартной общественной лицензии GNU, опубликованной
+ * Фондом свободного программного обеспечения; либо версии 2 Лицензии, либо
+ * (по вашему выбору) любой более поздней версии.
+ */
+.ppy-outer {
+    display: none;
+}
+.ppy-active .ppy-outer {
+    display: block;
+}
+.ppy-stage {
+    background-repeat: no-repeat !important;
+    background-position: center center !important;
+    position: relative;
+}
+
+.ppy-placeholder {
+    position: relative;
+}
+
+.ppy-caption,
+.ppy-captionwrap {
+    overflow: hidden;
+}
+
+.ppy-hidden {
+    display: none !important;
+}
+
