@@ -1,0 +1,279 @@
+:root {
+    --primary: #2563eb;
+    --bg: #ffffff;
+    --text: #1f2937;
+    --card-bg: #f3f4f6;
+    --transition: 0.3s ease;
+}
+[data-theme="dark"] {
+    --bg: #111827;
+    --text: #f9fafb;
+    --card-bg: #1f2937;
+}
+body {
+    margin: 0; font-family: 'Inter', sans-serif;
+    background: var(--bg); color: var(--text);
+    transition: background var(--transition);
+    overflow-x: hidden;
+    padding-left: 5%;
+    padding-right: 5%;
+}
+/* Заголовок и меню */
+.header {
+    left: 0;
+    right: 0;
+    width: auto;
+    top: 0;
+    box-sizing: border-box; /* Чтобы padding не раздувал ширину */
+    padding: 1rem 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;
+    z-index: 100;
+    backdrop-filter: blur(10px);
+    background: rgba(var(--bg), 0.8); /* Опционально: легкий фон для читаемости */
+}
+/* Добавляем отступ следующему элементу за хедером */
+.header + * {
+    margin-top: 70px; /* Это автоматически отодвинет hero вниз */
+}
+.header__list {
+    display: flex;
+    list-style: none;
+    gap: 2rem;
+    align-items: center;
+}
+.header__link {
+    text-decoration: none;
+    color: inherit;
+    font-weight: 500;
+}
+.header__checkbox {
+    display: none;
+}
+.header__user {
+    color: var(--text-color); /* или ваш цвет */
+    font-weight: bold;
+    margin-right: 10px;
+}
+.container {
+    max-width: 1200px; /* Или любая удобная вам ширина */
+    margin: 0 auto;    /* Центрирует блок */
+    padding: 0 5%;     /* Отступы по бокам, чтобы текст не прилипал к краю */
+    width: 100%;
+    box-sizing: border-box;
+}
+/* Раздел «Герои» */
+.hero {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 0 5%; /* Добавляем боковые отступы здесь */
+}
+.hero__title {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+}
+.hero__cursor {
+    animation: blink 0.7s infinite;
+    color: var(--primary);
+}
+/* Сетка */
+.services__grid {
+    display: grid;
+    grid-template-columns:repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem; padding: 4rem 5%;
+}
+.service-card {
+    background: var(--card-bg);
+    padding: 2rem;
+    border-radius: 15px;
+    transition: transform var(--transition);
+    text-align: center;
+}
+.service-card:hover {
+    transform: translateY(-10px);
+}
+/* Модальный */
+.modal {
+    position: fixed;
+    inset: 0;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+.modal--active {
+    display: flex;
+}
+.modal__overlay {
+    position: absolute;
+    inset: 0; background: rgba(0,0,0,0.7);
+}
+.modal__content {
+    background: var(--bg);
+    padding: 3rem;
+    border-radius: 20px;
+    position: relative;
+    width: 90%;
+    max-width: 400px;
+}
+/* Анимация показа */
+.reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: 1s all ease;
+}
+.reveal--active {
+    opacity: 1; transform:
+        translateY(0);
+}
+@keyframes blink {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% { opacity: 0;
+    }
+}
+
+/* Сообщение */
+.messages {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1001;
+}
+.message {
+    padding: 1rem 2rem;
+    border-radius: 8px;
+    color: white;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    animation: slideIn 0.5s ease forwards;
+}
+.message--success {
+    background: #10b981; /* Зеленый для успеха */
+}
+.message--error {
+    background: #ef4444; /* Красный для ошибок */
+}
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+/* Шрифт беговой дорожки */
+#typewriter {
+    /* Основной изящный шрифт */
+    font-family: 'Playfair Display', serif;
+    font-weight: 400;
+    font-style: italic; /* Курсив придаст еще больше изящества */
+    /* Дополнительные настройки для красоты */
+    font-size: 2.5rem;
+    line-height: 1.4;
+    letter-spacing: 1px;
+    transition: color 0.5s ease; /* Чтобы цвета фраз менялись плавно */
+}
+/* Для остального текста на сайте (опционально) */
+body {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 300;
+}
+
+
+/* Контейнер секции авторизации */
+.auth-section {
+    padding: 80px 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: calc(100vh - 200px); /* Чтобы форма была по центру экрана */
+}
+.auth-section__container {
+    max-width: 450px;
+    width: 100%;
+    background: var(--bg-secondary, #ffffff); /* Использует переменную темы или белый */
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+/* Заголовок формы */
+.auth-section__title {
+    font-size: 2rem;
+    margin-bottom: 30px;
+    text-align: center;
+    color: var(--text-color, #333);
+}
+/* Стилизация стандартной формы Django {{ form.as_p }} */
+.auth-form p {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+}
+.auth-form label {
+    font-weight: 600;
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+}
+.auth-form input {
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+}
+.auth-form input:focus {
+    outline: none;
+    border-color: #007bff; /* Цвет акцента */
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+}
+/* Кнопка */
+.btn--auth {
+    width: 100%;
+    padding: 14px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.1s ease;
+}
+.btn--auth:hover {
+    background-color: #0056b3;
+}
+.btn--auth:active {
+    transform: scale(0.98);
+}
+/* Ссылка под формой */
+.auth-footer {
+    margin-top: 25px;
+    text-align: center;
+    font-size: 0.9rem;
+    color: #666;
+}
+.auth-footer a {
+    color: #007bff;
+    text-decoration: none;
+    font-weight: 600;
+}
+.auth-footer a:hover {
+    text-decoration: underline;
+}
+/* Стили для системных сообщений (ошибки валидации) */
+.errorlist {
+    color: #dc3545;
+    list-style: none;
+    padding: 0;
+    font-size: 0.85rem;
+    margin-top: 5px;
+}
+/* Конец контейнера секции авторизации */

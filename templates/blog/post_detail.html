@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ post.title }}{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        {% if post.image %}
+            <img src="{{ post.image.url }}" class="img-fluid rounded mb-4" alt="{{ post.title }}">
+        {% endif %}
+
+        <h1 class="fw-bold">{{ post.title }}</h1>
+
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <p class="text-muted mb-0">Автор: {{ post.author.username }} | {{ post.created_at|date:"d.m.Y H:i" }}</p>
+
+            {# Кнопки управления для автора #}
+            {% if user == post.author %}
+            <div>
+                <a href="{% url 'blog:post_edit' post.pk %}" class="btn btn-sm btn-outline-primary">Редактировать</a>
+                <a href="{% url 'blog:post_delete' post.pk %}" class="btn btn-sm btn-outline-danger">Удалить</a>
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="fs-5 lh-base mb-5">
+            {{ post.content|linebreaks }}
+        </div>
+
+        <hr>
+
+        <h3 class="mt-5 mb-4">Комментарии ({{ comments|length }})</h3>
+
+        {% for comment in comments %}
+            <div class="card mb-3 border-0 bg-light shadow-sm">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <strong class="text-primary">@{{ comment.author.username }}</strong>
+                        <small class="text-muted">{{ comment.created_at|date:"d.m.Y H:i" }}</small>
+                    </div>
+                    <p class="mt-2 mb-0">{{ comment.text }}</p>
+                </div>
+            </div>
+        {% empty %}
+            <p class="text-muted italic">Здесь пока тихо... Станьте первым!</p>
+        {% endfor %}
+
+        {# Форма добавления комментария #}
+        {% if user.is_authenticated %}
+            <div class="card mt-5 border-0 shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title mb-3">Оставить комментарий</h5>
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <textarea name="text" class="form-control" rows="3" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Отправить</button>
+                    </form>
+                </div>
+            </div>
+        {% else %}
+            <div class="alert alert-info mt-5">
+                <a href="{% url 'login' %}">Войдите</a>, чтобы оставить комментарий.
+            </div>
+        {% endif %}
+
+        <div class="mt-5">
+            <a href="{% url 'blog:post_list' %}" class="btn btn-secondary">← Ко всем постам</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

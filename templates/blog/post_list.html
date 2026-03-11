@@ -1,0 +1,42 @@
+<{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Блог{% endblock %}
+
+{% block content %}
+<h1 class="mb-4">Последние записи</h1>
+<div class="row">
+    {% for post in posts %}
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card h-100 shadow-sm">
+                {% if post.image %}
+                    <img src="{{ post.image.url }}" class="card-img-top" alt="{{ post.title }}" style="height: 200px; object-fit: cover;">
+                {% endif %}
+                <div class="card-body">
+                    <h5 class="card-title">{{ post.title }}</h5>
+                    <p class="card-text text-muted small">Автор: {{ post.author.username }} | {{ post.created_at|date:"d.m.Y" }}</p>
+                    <p class="card-text">{{ post.content|truncatewords:20 }}</p>
+                    <a href="{% url 'blog:post_detail' post.pk %}" class="btn btn-outline-primary">Читать целиком</a>
+                </div>
+            </div>
+        </div>
+    {% empty %}
+        <p>Пока ничего не опубликовано.</p>
+    {% endfor %}
+</div>
+
+<!-- Пагинация из вашего ListView -->
+{% if is_paginated %}
+    <nav class="mt-4">
+        <ul class="pagination justify-content-center">
+            {% if page_obj.has_previous %}
+                <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">Назад</a></li>
+            {% endif %}
+            <li class="page-item disabled"><span class="page-link">{{ page_obj.number }}</span></li>
+            {% if page_obj.has_next %}
+                <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">Вперед</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+{% endif %}
+{% endblock %}

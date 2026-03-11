@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}index{% endblock %}
+
+{% block content %}
+    <!-- Индикатор загрузки и кастомный курсор оставляем в base.html, если они общие -->
+
+    <header class="header">
+        <div class="header__container">
+            <div class="header__logo">DJANGO_FLOW</div>
+            <input type="checkbox" id="burger-check" class="header__checkbox">
+            <nav class="header__menu">
+                <ul class="header__list">
+                    <li><a href="{% url 'blog:index' %}" class="header__link">Главная</a></li>
+                    <li><a href="{% url 'blog:post_list' %}" class="header__link">Блог</a></li>
+                    <li><button id="theme-toggle" class="theme-btn">🌓</button></li>
+                </ul>
+            </nav>
+            <label for="burger-check" class="header__burger"><span></span></label>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="hero__blob"></div>
+        <div class="hero__container reveal reveal--left">
+            <h1 class="hero__title">Мы проповедуем<br><span id="typewriter"></span><span class="hero__cursor">|</span></h1>
+            <p class="hero__text">Backend на Django + Frontend на БЭМ.</p>
+            <!-- Кнопка открытия модалки -->
+            <button class="btn btn--primary open-modal">Начать проект</button>
+        </div>
+    </section>
+
+    <section class="services" id="services">
+        <div class="services__container">
+            <h2 class="services__title reveal reveal--btm">Наши посты</h2>
+            <div class="services__grid">
+                {% for post in posts|slice:":3" %}
+                <div class="service-card reveal">
+                    {% if post.image %}
+                        <img src="{{ post.image.url }}" alt="{{ post.title }}" style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover;">
+                    {% else %}
+                        📝
+                    {% endif %}
+                    <h3>{{ post.title }}</h3>
+                    <a href="{% url 'blog:post_detail' post.pk %}" class="btn btn--link">Читать</a>
+                </div>
+                {% empty %}
+                <div class="service-card reveal">✨ <h3>Скоро будут новости</h3></div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    <!-- Модальное окно с формой -->
+    <div class="modal" id="modal-project">
+        <div class="modal__overlay"></div>
+        <div class="modal__content">
+            <button class="modal__close">&times;</button>
+            <h2>Оставить заявку</h2>
+            <form method="POST" action="{% url 'blog:index' %}" class="modal__form">
+                {% csrf_token %}
+
+                <div class="form-group">
+                    <label for="{{ form.name.id_for_label }}">Ваше имя</label>
+                    {{ form.name }}
+                    {% if form.name.errors %}
+                        <div class="error">{{ form.name.errors }}</div>
+                    {% endif %}
+                </div>
+
+                <button type="submit" class="btn btn--primary">Отправить боту 🚀</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Django Flow | БЭМ Проект{% endblock %}</title>
+
+    <!-- Шрифты -->
+    <link href="https://fonts.googleapis.com" rel="stylesheet">
+
+    <link rel="icon" href="{% static 'images/favicon.png' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+    {% block extra_css %}{% endblock %}
+</head>
+<body class="no-transition">
+
+    <!-- 1. Системные элементы (Индикаторы и курсоры) -->
+    <div class="preloader"><div class="preloader__spinner"></div></div>
+    <div class="cursor"></div>
+    <div class="cursor-follower"></div>
+
+    <!-- 2. Уведомления от Django (Успех/Ошибка) -->
+    {% if messages %}
+        <div class="messages">
+            {% for message in messages %}
+                <div class="message message--{{ message.tags }} reveal--top">
+                    {{ message }}
+                    <button class="message__close" onclick="this.parentElement.remove()">&times;</button>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <!-- 3. Шапка (Навигация) -->
+    <header class="header">
+        <div class="header__container">
+            <a href="{% url 'blog:index' %}" class="header__logo text-decoration-none">DJANGO_FLOW</a>
+            <input type="checkbox" id="burger-check" class="header__checkbox">
+            <nav class="header__menu">
+                <ul class="header__list">
+    <li><a href="{% url 'blog:index' %}" class="header__link">Главная</a></li>
+    <li><a href="{% url 'blog:post_list' %}" class="header__link">Блог</a></li>
+
+    <!-- Блок входа/регистрации -->
+    {% if user.is_authenticated %}
+        <li><span class="header__user">Привет, {{ user.username }}!</span></li>
+        <li>
+            <form action="{% url 'logout' %}" method="post" style="display:inline;">
+                {% csrf_token %}
+                <button type="submit" class="header__link" style="background:none; border:none; cursor:pointer;">Выйти</button>
+            </form>
+        </li>
+    {% else %}
+        <li><a href="{% url 'blog:login' %}" class="header__link">Вход</a></li>
+        <li><a href="{% url 'blog:register' %}" class="header__link">Регистрация</a></li>
+    {% endif %}
+
+    <li><button id="theme-toggle" class="theme-btn">🌓</button></li>
+</ul>
+            </nav>
+            <label for="burger-check" class="header__burger"><span></span></label>
+        </div>
+    </header>
+
+    <!-- 4. Основной контент (Сюда будут вставляться другие страницы) -->
+    <main class="main-content">
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <!-- 5. Подвал -->
+    <footer class="footer">
+        <div class="footer__container">
+            <p class="footer__text">&copy; {% now "Y" %} Django Flow. Сделано с ❤️ и БЭМ.</p>
+        </div>
+    </footer>
+
+    <!-- 6. Скрипты -->
+    <script src="{% static 'js/my_scripts.js' %}"></script>
+    {% block extra_js %}{% endblock %}
+
+</body>
+</html>

@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Вход | Django Flow{% endblock %}
+
+{% block content %}
+<section class="auth-section">
+    <div class="auth-section__container">
+        <h1 class="auth-section__title">Вход в систему</h1>
+        <form method="POST" class="auth-form">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn">Войти</button>
+        </form>
+        <div class="auth-footer">
+            <p>Нет аккаунта? <a href="{% url 'blog:register' %}">Зарегистрироваться</a></p>
+        </div>
+    </div>
+</section>
+{% endblock %}
