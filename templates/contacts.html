@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}contacts{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <!-- Основной контент -->
+        <div class="col-md-8">
+            <div class="p-4 mb-3 bg-light rounded shadow-sm">
+                <h4>О проекте</h4>
+                <p>Этот блог создан для прославления Иисуса Христа.</p>
+            </div>
+            <div class="p-4 mb-3">
+                <h4>Свежие записи</h4>
+                <ul class="list-unstyled">
+                    {% for post in recent_posts %}
+                    <li class="mb-2">
+                        <a href="{% url 'blog:post_detail' post.pk %}" class="text-decoration-none">{{ post.title }}</a>
+                        <br><small class="text-muted">{{ post.created_at|date:"d.m.Y" }}</small>
+                    </li>
+                    {% empty %}
+                    <li>Пока записей нет.</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        <!-- Боковая панель (Sidebar) -->
+        <div class="col-md-4">
+            <h1>Связаться с нами</h1>
+            <p class="lead">Мы всегда рады вашим предложениям и вопросам.</p>
+
+            <div class="card shadow-sm p-4">
+                <ul class="list-unstyled">
+                    <li><strong>📍 Адрес:</strong> г. Иерусалим, ул. Примерная, д. 10</li>
+                    <li><strong>📧 Email:</strong> info@myproject.ru</li>
+                    <li><strong>📞 Телефон:</strong> +0 (000) 000-00-00</li>
+                </ul>
+                <hr>
+                <p>
+                    Напишите нам в Telegram:
+                    <a href="https://t.me" class="btn btn-sm btn-primary" target="_blank">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS_dbOUeCrOBe-mkfGD-fEjQNECJrkromWTYg&s" width="20" alt="Telegram Bot" style="vertical-align: middle; margin-right: 5px;">
+                        @your-name_bot
+                    </a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

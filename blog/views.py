@@ -27,6 +27,16 @@ class IndexView(CreateView):
         return super().form_valid(form)
 
 
+class ContactsView(TemplateView):
+    template_name = 'contacts.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Данные для боковой панели (например, 3 последних поста)
+        context['recent_posts'] = Post.objects.all().order_by('-created_at')[:3]
+        return context
+
+
 class TelegramNotifier:
     """Класс для работы с уведомлениями в Telegram."""
 
