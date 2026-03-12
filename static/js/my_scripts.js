@@ -4,16 +4,17 @@ document.addEventListener('DOMContentLoaded', () => {
     const phrases = [
         'Господа Иисуса Христа',
         'Пострадавшего за нас на кресте',
-        'Принявшего все грехи наши на себя'
+        'Принявшего все грехи наши на себя',
+        'И воскресшего для нашего спасения'
     ];
-    const colors = ['#FFD700', '#FF4500', '#87CEEB'];
+    // const colors = ['#FFD700', '#FF4500', '#87CEEB', '#32CD32'];
     let i = 0, j = 0, isDeleting = false;
 
     function type() {
         if (!textElement) return; // Защита, если элемента нет
 
         const current = phrases[i];
-        textElement.style.color = colors[i];
+        // textElement.style.color = colors[i];
 
         textElement.textContent = isDeleting
             ? current.substring(0, j--)
@@ -35,12 +36,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 2. Переключение темы
     const themeBtn = document.getElementById('theme-toggle');
+    const navbar = document.querySelector('.navbar'); // Находим навигацию
+
     if (themeBtn) {
         themeBtn.addEventListener('click', () => {
             const body = document.body;
-            const newTheme = body.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+            const isDark = body.getAttribute('data-theme') === 'dark';
+            const newTheme = isDark ? 'light' : 'dark';
+
             body.setAttribute('data-theme', newTheme);
             localStorage.setItem('theme', newTheme);
+
+            // МЕНЯЕМ КЛАССЫ NAVBAR ДЛЯ ЦВЕТА ТЕКСТА
+            if (newTheme === 'dark') {
+                navbar.classList.replace('navbar-light', 'navbar-dark');
+            } else {
+                navbar.classList.replace('navbar-dark', 'navbar-light');
+            }
         });
     }
 
@@ -95,3 +107,18 @@ document.addEventListener('DOMContentLoaded', () => {
         setTimeout(() => { if(msg) msg.style.display = 'none'; }, 500);
     }, 5000);
 });
+
+// Сайдбар логика
+const sidebar = document.getElementById('sidebar');
+const sidebarBtn = document.getElementById('sidebar-open');
+const sidebarClose = document.getElementById('sidebar-close');
+const sidebarOverlay = document.getElementById('sidebar-overlay');
+
+const toggleSidebar = () => {
+    sidebar.classList.toggle('sidebar--active');
+    sidebarOverlay.classList.toggle('active');
+};
+
+if (sidebarBtn) sidebarBtn.onclick = toggleSidebar;
+if (sidebarClose) sidebarClose.onclick = toggleSidebar;
+if (sidebarOverlay) sidebarOverlay.onclick = toggleSidebar;

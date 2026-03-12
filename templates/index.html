@@ -6,21 +6,6 @@
 {% block content %}
     <!-- Индикатор загрузки и кастомный курсор оставляем в base.html, если они общие -->
 
-    <header class="header">
-        <div class="header__container">
-            <div class="header__logo">DJANGO_FLOW</div>
-            <input type="checkbox" id="burger-check" class="header__checkbox">
-            <nav class="header__menu">
-                <ul class="header__list">
-                    <li><a href="{% url 'blog:index' %}" class="header__link">Главная</a></li>
-                    <li><a href="{% url 'blog:post_list' %}" class="header__link">Блог</a></li>
-                    <li><button id="theme-toggle" class="theme-btn">🌓</button></li>
-                </ul>
-            </nav>
-            <label for="burger-check" class="header__burger"><span></span></label>
-        </div>
-    </header>
-
     <section class="hero">
         <div class="hero__blob"></div>
         <div class="hero__container reveal reveal--left">
