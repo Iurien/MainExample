@@ -47,6 +47,9 @@ class Comment(models.Model):
 
 class ProjectRequest(models.Model):
     name = models.CharField(max_length=100, verbose_name="Имя")
+    email = models.EmailField(verbose_name="Email", blank=True, null=True)       # Добавить это
+    phone = models.CharField(max_length=20, verbose_name="Телефон", blank=True, null=True) # И это
+    message = models.TextField(verbose_name="Сообщение", blank=True, null=True)  # И это
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="Дата заявки")
 
     class Meta:

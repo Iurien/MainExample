@@ -4,58 +4,59 @@
 {% block title %}index{% endblock %}
 
 {% block content %}
-    <!-- Индикатор загрузки и кастомный курсор оставляем в base.html, если они общие -->
 
-    <section class="hero">
-        <div class="hero__blob"></div>
-        <div class="hero__container reveal reveal--left">
-            <h1 class="hero__title">Мы проповедуем<br><span id="typewriter"></span><span class="hero__cursor">|</span></h1>
-            <p class="hero__text">Telegramm</p>
-            <!-- Кнопка открытия модалки -->
-            <button class="btn btn--primary open-modal">Начать проект</button>
-        </div>
-    </section>
-
-    <section class="services" id="services">
-        <div class="services__container">
-            <h2 class="services__title reveal reveal--btm">Наши посты</h2>
-            <div class="services__grid">
-                {% for post in posts|slice:":3" %}
-                <div class="service-card reveal">
-                    {% if post.image %}
-                        <img src="{{ post.image.url }}" alt="{{ post.title }}" style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover;">
-                    {% else %}
-                        📝
-                    {% endif %}
-                    <h3>{{ post.title }}</h3>
-                    <a href="{% url 'blog:post_detail' post.pk %}" class="btn btn--link">Читать</a>
+    <div class="container mt-5 mb-5">
+        <div class="row g-4">
+            <section class="hero">
+                <div class="hero__blob"></div>
+                <div class="hero__container reveal reveal--left">
+                    <h1 class="hero__title">Мы проповедуем<br><span id="typewriter"></span><span class="hero__cursor">|</span></h1>
+                    <p class="hero__text">Telegramm</p>
+                    <!-- Кнопка открытия модалки -->
+                    <button class="btn btn--primary open-modal" data-bs-toggle="modal" data-bs-target="#projectModal">
+                        Начать проект
+                    </button>
                 </div>
-                {% empty %}
-                <div class="service-card reveal">✨ <h3>Скоро будут новости</h3></div>
-                {% endfor %}
+            </section>
+
+            <!-- Модальное окно с формой -->
+            <!-- Модальное окно -->
+            <div class="modal fade" id="modal-project" tabindex="-1" aria-labelledby="projectModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header border-0">
+                            <h2 class="modal-title fs-5" id="projectModalLabel">Свяжитесь с нами</h2>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body p-4">
+                            {% if messages %}
+                                {% for message in messages %}
+                                    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                                        {{ message }}
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                    </div>
+                                {% endfor %}
+                            {% endif %}
+
+                            <form method="post" novalidate>
+                                {% csrf_token %}
+                                {% for field in form %}
+                                    <div class="mb-3">
+                                        <label class="form-label fw-bold">{{ field.label }}</label>
+                                        {{ field }}
+                                        {% if field.errors %}
+                                            <div class="text-danger small">{{ field.errors|join:", " }}</div>
+                                        {% endif %}
+                                    </div>
+                                {% endfor %}
+                                <button type="submit" class="btn btn-primary btn-lg w-100 mt-3 shadow-sm">
+                                    Отправить сообщение
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
-    </section>
-
-    <!-- Модальное окно с формой -->
-    <div class="modal" id="modal-project">
-        <div class="modal__overlay"></div>
-        <div class="modal__content">
-            <button class="modal__close">&times;</button>
-            <h2>Оставить заявку</h2>
-            <form method="POST" action="{% url 'blog:index' %}" class="modal__form">
-                {% csrf_token %}
-
-                <div class="form-group">
-                    <label for="{{ form.name.id_for_label }}">Ваше имя</label>
-                    {{ form.name }}
-                    {% if form.name.errors %}
-                        <div class="error">{{ form.name.errors }}</div>
-                    {% endif %}
-                </div>
-
-                <button type="submit" class="btn btn--primary">Отправить боту 🚀</button>
-            </form>
         </div>
     </div>
 {% endblock %}
