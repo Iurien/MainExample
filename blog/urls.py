@@ -1,5 +1,5 @@
 from django.urls import path, include
-from .views import PostListView, PostDetailView, IndexView, ContactsView
+from .views import PostListView, PostDetailView, IndexView, ContactsView, PhotoView, VideoView
 from django.contrib.auth import views as auth_views
 from .views import register
 from . import views
@@ -10,6 +10,8 @@ urlpatterns = [
     # Главная страница
     path('', IndexView.as_view(), name='index'),
     path('contacts/', ContactsView.as_view(), name='contacts'),
+    path('photo/', PhotoView.as_view(), name='photo'),
+    path('video/', VideoView.as_view(), name='video'),
     # Для списка постов
     path('post_list/', PostListView.as_view(), name='post_list'),
     # Для одного поста. DetailView по умолчанию ищет 'pk' в URL

@@ -37,6 +37,16 @@ class ContactsView(TemplateView):
         return context
 
 
+class PhotoView(TemplateView):
+    template_name = 'photo.html'
+
+
+class VideoView(TemplateView):
+    template_name = 'video.html'
+
+
+
+
 class TelegramNotifier:
     """Класс для работы с уведомлениями в Telegram."""
 
