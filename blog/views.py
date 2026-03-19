@@ -8,7 +8,7 @@ from django.urls import reverse_lazy
 import requests
 
 from .models import Post, Comment
-from .forms import ProjectRequestForm, ContactForm
+from .forms import ProjectRequestForm, ContactForm, CommentForm
 
 
 class TelegramNotifier:
@@ -99,29 +99,69 @@ class PostDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        # Добавляем список активных комментариев
         context['comments'] = self.object.comments.filter(active=True).order_by('-created_at')
+        # Добавляем пустую форму в контекст
+        context['comment_form'] = CommentForm()
         return context
 
     def post(self, request, *args, **kwargs):
+        # Для обработки POST нам все равно нужен объект поста
         self.object = self.get_object()
-        if request.user.is_authenticated:
-            text = request.POST.get('text')
-            if text:
-                Comment.objects.create(
-                    post=self.object,
-                    author=request.user,
-                    text=text,
-                    active=True
-                )
-                messages.success(request, "Комментарий добавлен!")
-                return redirect('blog:post_detail', pk=self.object.pk)
-        messages.error(request, "Ошибка при добавлении.")
-        return self.get(request, *args, **kwargs)
+
+        if not request.user.is_authenticated:
+            messages.error(request, "Нужно войти в аккаунт, чтобы оставить комментарий.")
+            return redirect('login')
+
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.post = self.object
+            comment.author = request.user
+            comment.active = True
+            comment.save()
+            messages.success(request, "Комментарий успешно добавлен!")
+            return redirect('blog:post_detail', pk=self.object.pk)
+
+        # Если форма невалидна, возвращаем страницу с ошибками
+        context = self.get_context_data(object=self.object)
+        context['comment_form'] = form
+        return self.render_to_response(context)
 
 
-class PhotoView(TemplateView):
-    template_name = 'photo.html'
+class GalleryView(TemplateView):
+    template_name = 'gallery.html'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        context['gallery1_images'] = [
+            {'full': 'images/1_1.jpg', 'thumb': 'images/1_1_thumb.jpg', 'caption': 'Снежный барс'},
+            {'full': 'images/1_2.jpg', 'thumb': 'images/1_2_thumb.jpg', 'caption': 'Пума'},
+            {'full': 'images/1_3.jpg', 'thumb': 'images/1_3_thumb.jpg', 'caption': 'Кто это?'},
+            {'full': 'images/1_4.jpg', 'thumb': 'images/1_4_thumb.jpg', 'caption': 'Рептилия'},
+        ]
+
+        context['gallery2_images'] = [
+            {'full': 'images/2_1.jpg', 'thumb': 'images/2_1_thumb.jpg', 'alt': 'подводный мир'},
+            {'full': 'images/2_2.jpg', 'thumb': 'images/2_2_thumb.jpg', 'alt': 'Дорожный знак'},
+            {'full': 'images/2_3.jpg', 'thumb': 'images/2_3_thumb.jpg', 'alt': 'Воздушные шарики'},
+            {'full': 'images/2_4.jpg', 'thumb': 'images/2_4_thumb.jpg', 'alt': 'Колонны'},
+            {'full': 'images/2_5.jpg', 'thumb': 'images/2_5_thumb.jpg', 'alt': 'Пейзаж на закате'},
+        ]
+
+        context['gallery3_images'] = [
+            {'full': 'images/3_1.jpg', 'thumb': 'images/3_1_thumb.jpg', 'alt': 'Описание 1'},
+            {'full': 'images/3_2.jpg', 'thumb': 'images/3_2_thumb.jpg', 'alt': 'Описание 2'},
+            {'full': 'images/3_3.jpg', 'thumb': 'images/3_3_thumb.jpg', 'alt': 'Описание 3'},
+            {'full': 'images/3_4.jpg', 'thumb': 'images/3_4_thumb.jpg', 'alt': 'Описание 4'},
+            {'full': 'images/3_5.jpg', 'thumb': 'images/3_5_thumb.jpg', 'alt': 'Описание 5'},
+        ]
+
+        return context
+
+    def get_queryset(self):
+        return GalleryImage.objects.all().order_by('my_order')
 
 class VideoView(TemplateView):
     template_name = 'video.html'
@@ -152,3 +192,5 @@ def register(request):
     else:
         form = UserCreationForm()
     return render(request, 'registration/register.html', {'form': form})
+
+

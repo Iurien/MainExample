@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django.utils.safestring import mark_safe
 from .models import Post, Comment, ProjectRequest
+from adminsortable2.admin import SortableAdminMixin
 
 
 @admin.register(Post)
@@ -40,3 +41,4 @@ class ProjectRequestAdmin(admin.ModelAdmin):
     readonly_fields = ('created_at',)
     # Добавим сортировку, чтобы новые заявки были сверху
     ordering = ('-created_at',)
+

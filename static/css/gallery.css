@@ -1,0 +1,86 @@
+.gallery-container {
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 0 15px;
+}
+
+.ppy {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.ppy-imglist {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  list-style: none;
+  padding: 0;
+  justify-content: center;
+}
+
+.ppy-imglist li {
+  flex: 0 0 calc(25% - 10px);
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .ppy-imglist li {
+    flex: 0 0 calc(33.333% - 10px);
+  }
+}
+
+@media (max-width: 480px) {
+  .ppy-imglist li {
+    flex: 0 0 calc(50% - 10px);
+  }
+}
+
+.ppy-stage {
+  position: relative;
+  width: 100%;
+  height: auto;
+  min-height: 300px;
+}
+
+.ppy-stage img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}
+
+.ppy-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.ppy-counter, .ppy-caption {
+  text-align: center;
+  font-size: 0.9em;
+  color: #666;
+  margin-top: 10px;
+}
+
+/* Стили для сенсорных устройств */
+.ppy a {
+  touch-action: manipulation;
+}
+
+.ppy-nav a {
+  padding: 8px 16px;
+  background: #007bff;
+  color: white;
+  text-decoration: none;
+  border-radius: 4px;
+  font-size: 0.9em;
+}
+
+.ppy-nav a:hover {
+  background: #0056b3;
+}
+

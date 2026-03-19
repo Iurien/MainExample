@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-
+from django_resized import ResizedImageField
 
 class Post(models.Model):
     title = models.CharField(max_length=200, verbose_name="Заголовок")
@@ -58,3 +58,4 @@ class ProjectRequest(models.Model):
 
     def __str__(self):
         return f"Заявка от {self.name}"
+

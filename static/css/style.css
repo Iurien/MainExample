@@ -401,10 +401,11 @@ body {
     left: -300px; /* Спрятан слева */
     width: 280px;
     height: 100vh;
-    background: var(--bg);
+    background-color: var(--bg);
+    color: var(--text);
     box-shadow: 5px 0 15px rgba(0,0,0,0.1);
-    z-index: 1200;
-    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 2000;
+     transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1)
     padding: 2rem;
     display: flex;
     flex-direction: column;
@@ -417,7 +418,6 @@ body {
     background: none;
     border: none;
     font-size: 2.5rem;
-    color: var(--text);
     cursor: pointer;
     margin-bottom: 2rem;
 }
@@ -445,7 +445,7 @@ body {
     height: 100%;
     background: rgba(0,0,0,0.5);
     backdrop-filter: blur(3px);
-    z-index: 1150;
+    z-index: 1500;
     display: none;
     opacity: 0;
     transition: opacity 0.3s;

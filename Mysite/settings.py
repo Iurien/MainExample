@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'import_export',
     'blog.apps.BlogConfig',
     'widget_tweaks',
+    'adminsortable2',
 ]
 
 MIDDLEWARE = [
