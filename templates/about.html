@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block title %}О нас{% endblock %}
+
+{% block content %}
+
+<div class="container mt-5">
+    {% if about_data %}
+        <h1 class="mb-4 d-inline-block me-2">{{ about_data.title }}</h1>
+        <div class="mb-5 leading-relaxed">{{ about_data.content|linebreaks }}</div>
+
+        <!-- Галерея изображений (теперь выводит картинки, а не форму) -->
+        {% if about_data.images.all %}
+        <div class="row g-3 mb-5">
+            {% for image in about_data.images.all %}
+                <div class="col-md-4">
+                    <img src="{{ image.image.url }}" class="img-fluid rounded shadow-sm" alt="Галерея">
+                </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+    {% endif %}
+
+    <!-- Форма обратной связи -->
+    <div class="card p-4 shadow-sm bg-body-tertiary border border-secondary-subtle" style="max-width: 600px;">
+        <h3 class="mb-3">Связаться с нами</h3>
+        <form method="post" novalidate>
+            {% csrf_token %}
+            {% for field in form %}
+                <div class="mb-3">
+                    <label class="form-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
+
+                    {# 1. Заранее вычисляем класс ошибки #}
+                    {% with error_class=field.errors|yesno:"is-invalid," %}
+                        {# 2. Передаем готовую переменную в render_field #}
+                        {% render_field field class+="form-control" class+=error_class %}
+                    {% endwith %}
+
+                    {# 3. Вывод текста ошибок #}
+                    {% if field.errors %}
+                        <div class="invalid-feedback d-block">
+                            {{ field.errors|join:", " }}
+                        </div>
+                    {% endif %}
+                </div>
+            {% endfor %}
+            <button type="submit" class="btn btn-primary w-100 mt-2">Отправить сообщение</button>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

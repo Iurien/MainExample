@@ -53,7 +53,7 @@
                    <span class="nav-link d-none d-md-block me-3">Привет, {{ user.username }}!</span>
                    <form action="{% url 'logout' %}" method="post" class="d-inline">
                        {% csrf_token %}
-                       <button type="submit" class="btn btn-outline-dark btn-sm">Выйти</button>
+                       <button type="submit" class="btn btn-outline-light btn-sm">Выйти</button>
                    </form>
                {% else %}
                    <a class="nav-link me-2" href="{% url 'blog:login' %}">Вход</a>
@@ -78,9 +78,11 @@
        <nav class="sidebar__nav d-flex flex-column p-4">
            <!-- Убрал text-dark, чтобы работал твой CSS -->
            <a href="{% url 'blog:index' %}" class="sidebar__link py-2 h5 text-decoration-none">Главная</a>
+           <a href="{% url 'blog:about' %}" class="sidebar__link py-2 h5 text-decoration-none">О нас</a>
            <a href="{% url 'blog:post_list' %}" class="sidebar__link py-2 h5 text-decoration-none">Новости</a>
            <a href="{% url 'blog:gallery' %}" class="sidebar__link py-2 h5 text-decoration-none">Галерея</a>
            <a href="{% url 'blog:video' %}" class="sidebar__link py-2 h5 text-decoration-none">Видеоконтент</a>
+           <a href="{% url 'blog:audio' %}" class="sidebar__link py-2 h5 text-decoration-none">Аудиоконтент</a>
            <a href="{% url 'blog:contacts' %}" class="sidebar__link py-2 h5 text-decoration-none">Контакты</a>
        </nav>
    </aside>
@@ -158,7 +160,6 @@
                         <h3>Навигация</h3>
                         <ul class="list-unstyled">
                             <li><a href="/about" class="text-white-50 text-decoration-none">О нас</a></li>
-                            <li><a href="/services" class="text-white-50 text-decoration-none">Наши услуги</a></li>
                             <li><a href="/contacts" class="text-white-50 text-decoration-none">Контакты</a></li>
                         </ul>
                     </div>

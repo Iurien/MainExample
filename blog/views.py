@@ -5,42 +5,57 @@ from django.core.mail import send_mail
 from django.contrib.auth.forms import UserCreationForm
 from django.conf import settings
 from django.urls import reverse_lazy
+from django.contrib.messages.views import SuccessMessageMixin
 import requests
 
-from .models import Post, Comment
-from .forms import ProjectRequestForm, ContactForm, CommentForm
+from .models import Post, Comment, AudioFile, AboutPage, Feedback
+
+from .forms import ProjectRequestForm, ContactForm, CommentForm, FeedbackForm
 
 
-class TelegramNotifier:
-    def __init__(self):
-        # Токен в settings.py должен быть БЕЗ приставки 'bot' (например: '12345:ABCDE')
-        self.token = settings.TELEGRAM_BOT_TOKEN
-        self.chat_id = settings.TELEGRAM_CHAT_ID
-        # ИСПРАВЛЕНО: Правильный формат URL API Telegram
-        self.base_url = f"https://api.telegram.org/bot{self.token}/sendMessage"
+class IndexView(CreateView):
+    template_name = 'index.html'
+    form_class = ProjectRequestForm
+    success_url = reverse_lazy('blog:index')
 
-    def send_notification(self, instance) -> bool:
-        message_text = (
-            f"🚀 *Новая заявка с сайта!*\n"
-            f"━━━━━━━━━━━━━━━\n"
-            f"👤 *Имя:* {getattr(instance, 'name', 'Не указано')}\n"
-            f"📞 *Телефон:* {getattr(instance, 'phone', '—')}\n"
-            f"📧 *Email:* {getattr(instance, 'email', '—')}\n"
-            f"📝 *Сообщение:* {getattr(instance, 'message', 'Без текста')}\n"
-            f"━━━━━━━━━━━━━━━"
+    def form_valid(self, form):
+        instance = form.save()
+        # Отправка уведомления
+        notifier = TelegramNotifier()
+        notifier.send_notification(instance)
+        messages.success(self.request, 'Ваше сообщение отправлено! Мы скоро свяжемся с вами.')
+        return super().form_valid(form)
+
+
+class AboutPageView(SuccessMessageMixin, CreateView):
+    model = Feedback
+    form_class = FeedbackForm
+    template_name = 'about.html'
+    success_url = reverse_lazy('blog:about')
+    success_message = "Ваше сообщение успешно отправлено!"
+
+    def form_valid(self, form):
+        # 1. Сначала сохраняем объект в базу (стандартное поведение CreateView)
+        response = super().form_valid(form)
+
+        # 2. Получаем данные из формы для письма
+        feedback = form.cleaned_data
+
+        # 3. Отправляем письмо
+        send_mail(
+            subject=f"Новое сообщение от {feedback.get('name', 'Пользователя')}",
+            message=f"Email: {feedback.get('email')}\n\nТекст сообщения:\n{feedback.get('message')}",
+            from_email=settings.DEFAULT_FROM_EMAIL,
+            recipient_list=[settings.EMAIL_HOST_USER],  # или другой ваш email
+            fail_silently=False,
         )
-        payload = {
-            "chat_id": self.chat_id,
-            "text": message_text,
-            "parse_mode": "Markdown"
-        }
-        try:
-            response = requests.post(self.base_url, json=payload, timeout=5)
-            response.raise_for_status()
-            return True
-        except Exception as e:
-            print(f"Ошибка отправки в TG: {e}")
-            return False
+
+        return response
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['about_data'] = AboutPage.objects.first()
+        return context
 
 
 class ContactsView(FormView):
@@ -65,20 +80,6 @@ class ContactsView(FormView):
         except Exception as e:
             messages.error(self.request, f'Ошибка при отправке: {e}')
 
-        return super().form_valid(form)
-
-
-class IndexView(CreateView):
-    template_name = 'index.html'
-    form_class = ProjectRequestForm
-    success_url = reverse_lazy('blog:index')
-
-    def form_valid(self, form):
-        instance = form.save()
-        # Отправка уведомления
-        notifier = TelegramNotifier()
-        notifier.send_notification(instance)
-        messages.success(self.request, 'Ваше сообщение отправлено! Мы скоро свяжемся с вами.')
         return super().form_valid(form)
 
 
@@ -167,6 +168,12 @@ class VideoView(TemplateView):
     template_name = 'video.html'
 
 
+class AudioListView(ListView):
+    model = AudioFile
+    template_name = 'audio.html' # Путь к вашему шаблону
+    context_object_name = 'audios'     # Имя переменной в HTML
+
+
 class PostUpdateView(UpdateView):
     model = Post
     fields = ['title', 'text']
@@ -194,3 +201,33 @@ def register(request):
     return render(request, 'registration/register.html', {'form': form})
 
 
+class TelegramNotifier:
+    def __init__(self):
+        # Токен в settings.py должен быть БЕЗ приставки 'bot' (например: '12345:ABCDE')
+        self.token = settings.TELEGRAM_BOT_TOKEN
+        self.chat_id = settings.TELEGRAM_CHAT_ID
+        # ИСПРАВЛЕНО: Правильный формат URL API Telegram
+        self.base_url = f"https://api.telegram.org/bot{self.token}/sendMessage"
+
+    def send_notification(self, instance) -> bool:
+        message_text = (
+            f"🚀 *Новая заявка с сайта!*\n"
+            f"━━━━━━━━━━━━━━━\n"
+            f"👤 *Имя:* {getattr(instance, 'name', 'Не указано')}\n"
+            f"📞 *Телефон:* {getattr(instance, 'phone', '—')}\n"
+            f"📧 *Email:* {getattr(instance, 'email', '—')}\n"
+            f"📝 *Сообщение:* {getattr(instance, 'message', 'Без текста')}\n"
+            f"━━━━━━━━━━━━━━━"
+        )
+        payload = {
+            "chat_id": self.chat_id,
+            "text": message_text,
+            "parse_mode": "Markdown"
+        }
+        try:
+            response = requests.post(self.base_url, json=payload, timeout=5)
+            response.raise_for_status()
+            return True
+        except Exception as e:
+            print(f"Ошибка отправки в TG: {e}")
+            return False

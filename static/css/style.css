@@ -14,7 +14,32 @@
     --card-bg: #1f2937;
     --card-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
 }
-
+/* Стили для темной темы */
+[data-bs-theme="dark"] body {
+    background-color: #0f172a; /* Очень темный синий/черный фон */
+}
+[data-bs-theme="dark"] .card {
+    background-color: #1e293b; /* Цвет карточки чуть светлее фона */
+    color: #f8fafc;
+}
+[data-bs-theme="dark"] input:not([type="checkbox"]):not([type="radio"]),
+[data-bs-theme="dark"] textarea,
+[data-bs-theme="dark"] select {
+    background-color: #334155; /* Темный фон для полей */
+    border-color: #475569;
+    color: #f8fafc;
+}
+[data-bs-theme="dark"] input:focus,
+[data-bs-theme="dark"] textarea:focus {
+    background-color: #334155;
+    border-color: #3b82f6;
+    color: #fff;
+    box-shadow: 0 0 0 0.25rem rgba(59, 130, 246, 0.25);
+}
+/* Фикс для меток (Labels), если они стали невидимы */
+[data-bs-theme="dark"] .form-label {
+    color: #cbd5e1;
+}
 
 /* Глобальные стили */
 body {
@@ -405,7 +430,7 @@ body {
     color: var(--text);
     box-shadow: 5px 0 15px rgba(0,0,0,0.1);
     z-index: 2000;
-     transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1)
+     transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     padding: 2rem;
     display: flex;
     flex-direction: column;
@@ -454,4 +479,6 @@ body {
     display: block;
     opacity: 1;
 }
+
+
 

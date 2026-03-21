@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Аудиоконтент{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="mb-4">Аудиоконтент</h1>
+    
+    <div class="list-group">
+        {% for audio in audios %}
+            <div class="list-group-item d-flex justify-content-between align-items-center">
+                <span>{{ audio.title }}</span>
+                <audio controls>
+                    <source src="{{ audio.file.url }}" type="audio/mpeg">
+                    Ваш браузер не поддерживает тег audio.
+                </audio>
+            </div>
+        {% empty %}
+            <p class="text-muted">Аудиозаписи пока не добавлены.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

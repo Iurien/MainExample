@@ -95,42 +95,71 @@
 </div>
 
 <style>
-    /* Стилизация полей формы (если не заданы классы в forms.py) */
+    /* 1. Базовые настройки элементов управления */
     input:not([type="checkbox"]):not([type="radio"]),
     textarea,
-    select {
-        display: block;
-        width: 100%;
-        padding: 0.6rem 0.85rem;
-        font-size: 1rem;
-        font-weight: 400;
-        line-height: 1.5;
-        color: #212529;
-        background-color: #fff;
-        border: 1px solid #dee2e6;
+    select,
+    .form-control {
+        background-color: var(--bg) !important;
+        color: var(--text) !important;
+        border: 1px solid rgba(128, 128, 128, 0.2) !important;
+        transition: all var(--transition);
         border-radius: 0.5rem;
-        transition: all 0.2s ease-in-out;
     }
 
-    input:focus, textarea:focus {
-        border-color: #86b7fe;
-        outline: 0;
-        box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, .15);
-        background-color: #fff;
+    /* 2. Состояние фокуса */
+    input:focus, textarea:focus, .form-control:focus {
+        background-color: var(--card-bg) !important;
+        border-color: var(--primary) !important;
+        color: var(--text) !important;
+        box-shadow: 0 0 0 0.25rem rgba(37, 99, 235, 0.1);
+        outline: none;
     }
 
-    /* Анимация иконок */
-    .social-link {
-        transition: transform 0.2s ease;
-        display: inline-block;
+    /* 3. Заголовки, Метки и Жирный текст (УНИВЕРСАЛЬНО) */
+    h2, h4, h5, h6, .card-title, .form-label, .card strong {
+        color: var(--text) !important; /* Теперь зависит от темы */
+        font-weight: 600;
+        opacity: 1;
+    }
+
+    /* 4. Контакты и ссылки */
+    .card .text-dark,
+    .card a.text-decoration-none {
+        color: var(--text) !important;
+    }
+
+    .card a:hover {
+        color: var(--primary) !important;
+    }
+
+    /* 5. Вспомогательный текст (Адрес и т.д.) */
+    .card .text-muted {
+        color: var(--text) !important;
+        opacity: 0.6; /* Делаем его чуть бледнее основного, но читаемым */
+    }
+
+    /* 6. Карточки и фоны */
+    .card {
+        background-color: var(--card-bg) !important;
+        border-radius: 1rem;
+        border: 1px solid rgba(128, 128, 128, 0.1);
+    }
+
+    .bg-light {
+        background-color: var(--card-bg) !important;
+    }
+
+    /* 7. Кнопка и Соцсети */
+    .btn-primary {
+        background-color: var(--primary);
+        border: none;
+        padding: 10px 25px;
+        transition: filter var(--transition);
     }
 
     .social-link:hover {
         transform: translateY(-3px);
-    }
-
-    .card {
-        border-radius: 1rem;
     }
 </style>
 {% endblock %}

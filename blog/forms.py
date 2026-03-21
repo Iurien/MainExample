@@ -1,5 +1,5 @@
 from django import forms
-from .models import ProjectRequest,Comment
+from .models import ProjectRequest,Comment, Feedback
 
 class ProjectRequestForm(forms.ModelForm):
     class Meta:
@@ -36,3 +36,16 @@ class CommentForm(forms.ModelForm):
                 'rows': 3
             }),
         }
+
+
+class FeedbackForm(forms.ModelForm):
+    class Meta:
+        model = Feedback
+        fields = ['name', 'email', 'message']
+        widgets = {
+            'name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Ваше имя'}),
+            'email': forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'Email для связи'}),
+            'message': forms.Textarea(attrs={'class': 'form-control', 'rows': 4, 'placeholder': 'Ваш вопрос...'}),
+        }
+
+
