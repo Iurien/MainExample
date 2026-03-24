@@ -99,13 +99,14 @@ class Video(models.Model):
 
     def get_embed_url(self):
         """Извлекает ID видео и возвращает корректную ссылку для iframe"""
+        # Ваше регулярное выражение хорошее, оставляем его
         regex = r'(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})'
         match = re.search(regex, self.video_url)
 
         if match:
             video_id = match.group(1)
-            # ВНИМАНИЕ: Добавлен обязательный путь /embed/
-            return f"https://www.youtube.com{video_id}"
+            # ИСПРАВЛЕНО: Добавлен слэш и слово embed
+            return f"https://www.youtube.com/embed/{video_id}"
 
         return self.video_url
 
