@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.utils.safestring import mark_safe
-from .models import Post, Comment, ProjectRequest, AudioFile, AboutPage, AboutImage, Feedback
+from .models import Post, Comment, ProjectRequest, AudioFile, AboutPage, AboutImage, Feedback, Video
 
 @admin.register(Post)
 class PostAdmin(admin.ModelAdmin):
@@ -36,12 +36,20 @@ class AudioFileAdmin(admin.ModelAdmin):
     list_display = ('title', 'file')
     search_fields = ('title',)
 
-# Сначала описываем Inline для фотографий
+
 class AboutImageInline(admin.TabularInline):
     model = AboutImage
-    extra = 3
+    extra = 1
+    readonly_fields = ('preview',)  # Добавляем поле для предпросмотра
 
-# Теперь регистрируем AboutPage ОДИН РАЗ со всеми настройками
+    def preview(self, obj):
+        if obj.image:
+            return mark_safe(f'<img src="{obj.image.url}" width="100" />')
+        return "Нет изображения"
+
+    preview.short_description = "Предпросмотр"
+
+
 @admin.register(AboutPage)
 class AboutPageAdmin(admin.ModelAdmin):
     list_display = ('title', 'updated_at')
@@ -55,3 +63,18 @@ class AboutPageAdmin(admin.ModelAdmin):
 class FeedbackAdmin(admin.ModelAdmin):
     list_display = ('name', 'email', 'created_at')
     readonly_fields = ('name', 'email', 'message', 'created_at')
+
+
+@admin.register(Video)
+class VideoAdmin(admin.ModelAdmin):
+    # Столбцы, которые будут видны в списке всех видео
+    list_display = ('title', 'video_url', 'created_at')
+
+    # Поля, по которым можно искать (справа вверху появится поиск)
+    search_fields = ('title', 'description')
+
+    # Фильтр справа (по дате создания)
+    list_filter = ('created_at',)
+
+    # Порядок сортировки в админке
+    ordering = ('-created_at',)

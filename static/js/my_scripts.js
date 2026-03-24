@@ -109,16 +109,24 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // Сайдбар логика
-const sidebar = document.getElementById('sidebar');
-const sidebarBtn = document.getElementById('sidebar-open');
-const sidebarClose = document.getElementById('sidebar-close');
-const sidebarOverlay = document.getElementById('sidebar-overlay');
+document.addEventListener('DOMContentLoaded', () => {
+    const openBtn = document.getElementById('sidebar-open');
+    const closeBtn = document.getElementById('sidebar-close');
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('sidebar-overlay');
 
-const toggleSidebar = () => {
-    sidebar.classList.toggle('sidebar--active');
-    sidebarOverlay.classList.toggle('active');
-};
+    const toggleSidebar = (state) => {
+        sidebar.classList.toggle('active', state);
+        overlay.classList.toggle('show', state);
+        document.body.style.overflow = state ? 'hidden' : ''; // Блокируем скролл
+    };
 
-if (sidebarBtn) sidebarBtn.onclick = toggleSidebar;
-if (sidebarClose) sidebarClose.onclick = toggleSidebar;
-if (sidebarOverlay) sidebarOverlay.onclick = toggleSidebar;
+    openBtn.addEventListener('click', () => toggleSidebar(true));
+    closeBtn.addEventListener('click', () => toggleSidebar(false));
+    overlay.addEventListener('click', () => toggleSidebar(false));
+
+    // Закрытие по клавише Esc
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') toggleSidebar(false);
+    });
+});

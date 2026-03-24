@@ -398,87 +398,72 @@ body {
 /* Остановка при наведении */
 
 
-/* Боковая панель */
-/* Кнопка гамбургер */
+/* Базовые стили сайдбара */
+   /* Кнопка открытия (Бургер) */
 .sidebar-toggle {
-    position: fixed;
-    top: 15px;
-    left: 20px;
-    z-index: 1100;
-    background: none;
-    border: none;
-    cursor: pointer;
+    padding: 10px;
+    z-index: 1000;
+}
+
+.hamburger-box {
+    width: 24px;
+    height: 18px;
     display: flex;
     flex-direction: column;
-    gap: 5px;
+    justify-content: space-between;
 }
-.sidebar-toggle span {
-    width: 30px;
-    height: 3px;
-    background: var(--text);
-    border-radius: 2px;
+
+.line {
+    display: block;
+    width: 100%;
+    height: 2px;
+    background-color: var(--bs-dark); /* Адаптивный цвет Bootstrap */
     transition: 0.3s;
 }
-/* Сама панель */
+
+/* Сайдбар и Overlay (основная логика) */
 .sidebar {
     position: fixed;
     top: 0;
-    left: -300px; /* Спрятан слева */
-    width: 280px;
+    left: -300px;
+    width: 300px;
     height: 100vh;
-    background-color: var(--bg);
-    color: var(--text);
-    box-shadow: 5px 0 15px rgba(0,0,0,0.1);
+    /* ГЛАВНОЕ ИЗМЕНЕНИЕ: используем переменные Bootstrap */
+    background-color: var(--bs-success-bg-subtle) !important;
+    color: var(--bs-body-color) !important;
+    box-shadow: 4px 0 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out;
     z-index: 2000;
-     transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    padding: 2rem;
-    display: flex;
-    flex-direction: column;
 }
-.sidebar.sidebar--active {
-    transform: translateX(300px); /* Выезжает */
+
+.sidebar.active {
+    transform: translateX(300px); /* Выезжает вправо */
 }
-.sidebar__close {
-    align-self: flex-end;
-    background: none;
-    border: none;
-    font-size: 2.5rem;
-    cursor: pointer;
-    margin-bottom: 2rem;
-}
-.sidebar__nav {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-}
-.sidebar__link {
-    font-size: 1.2rem;
-    text-decoration: none;
-    color: var(--text);
-    font-weight: 500;
-    transition: color 0.2s;
-}
-.sidebar__link:hover {
-    color: var(--primary);
-}
-/* Затемнение фона */
+
 .sidebar-overlay {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0,0,0,0.5);
-    backdrop-filter: blur(3px);
-    z-index: 1500;
-    display: none;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
     opacity: 0;
-    transition: opacity 0.3s;
+    visibility: hidden;
+    transition: 0.3s;
+    z-index: 1500;
 }
-.sidebar-overlay.active {
-    display: block;
+
+.sidebar-overlay.show {
     opacity: 1;
+    visibility: visible;
 }
 
+.sidebar__link {
+    color: var(--bs-body-color) !important; /* Текст будет подстраиваться */
+    text-decoration: none;
+    display: block;
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(128, 128, 128, 0.2);
+}
 
-
+.sidebar__link:hover {
+    padding-left: 8px;
+    color: var(--bs-primary);
+}

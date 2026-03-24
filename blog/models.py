@@ -1,4 +1,5 @@
 import os
+import re
 from django.db import models
 from django.contrib.auth.models import User
 from django_resized import ResizedImageField
@@ -87,6 +88,33 @@ class AudioFile(models.Model):
     class Meta:
         verbose_name = "Аудиозапись"
         verbose_name_plural = "Аудиозаписи"
+
+
+class Video(models.Model):
+    title = models.CharField(max_length=200, verbose_name="Название")
+    description = models.TextField(blank=True, verbose_name="Описание")
+    # Оставил только одно поле video_url
+    video_url = models.URLField(verbose_name="Ссылка на видео (YouTube)")
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def get_embed_url(self):
+        """Извлекает ID видео и возвращает корректную ссылку для iframe"""
+        regex = r'(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})'
+        match = re.search(regex, self.video_url)
+
+        if match:
+            video_id = match.group(1)
+            # ВНИМАНИЕ: Добавлен обязательный путь /embed/
+            return f"https://www.youtube.com{video_id}"
+
+        return self.video_url
+
+    class Meta:
+        verbose_name = "Видео"
+        verbose_name_plural = "Видео"
+
+    def __str__(self):
+        return self.title
 
 
 class AboutPage(models.Model):

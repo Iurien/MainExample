@@ -8,7 +8,7 @@ from django.urls import reverse_lazy
 from django.contrib.messages.views import SuccessMessageMixin
 import requests
 
-from .models import Post, Comment, AudioFile, AboutPage, Feedback
+from .models import Post, Comment, AudioFile, AboutPage, Feedback, Video
 
 from .forms import ProjectRequestForm, ContactForm, CommentForm, FeedbackForm
 
@@ -164,14 +164,18 @@ class GalleryView(TemplateView):
     def get_queryset(self):
         return GalleryImage.objects.all().order_by('my_order')
 
-class VideoView(TemplateView):
-    template_name = 'video.html'
-
 
 class AudioListView(ListView):
     model = AudioFile
     template_name = 'audio.html' # Путь к вашему шаблону
     context_object_name = 'audios'     # Имя переменной в HTML
+
+
+class VideoListView(ListView):
+    model = Video
+    template_name = 'video.html'  # Путь к вашему HTML-файлу
+    context_object_name = 'videos'         # Имя переменной, которая будет доступна в шаблоне
+    ordering = ['-created_at']             # Сортировка: сначала новые
 
 
 class PostUpdateView(UpdateView):

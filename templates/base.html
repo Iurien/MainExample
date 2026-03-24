@@ -13,15 +13,17 @@
     <title>{% block title %}Django Flow | Bootstrap{% endblock %}</title>
 
     <!-- Bootstrap 5 CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <!-- Твой кастомный CSS (если остался) -->
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="stylesheet" href="{% static 'css/gallery.css' %}">
+    <link rel="stylesheet" href="{% static 'css/about.css' %}">
 
     <link rel="stylesheet" type="text/css" href="{%  static 'css/popeye/jquery.popeye.css' %}" media="screen" />
     <link rel="stylesheet" type="text/css" href="{%  static 'css/popeye/jquery.popeye.style.css' %}" media="screen" />
 
     {% block extra_css %}{% endblock %}
+    <link href="https://cdnjs.cloudflare.com" rel="stylesheet">
 
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
     <script type="text/javascript" src="{% static 'js/lib/popeye/jquery.popeye-2.1.js' %}"></script>
@@ -34,7 +36,7 @@
        <div class="container d-flex align-items-center justify-content-between position-relative">
            <!-- ЛЕВО: Кнопка сайдбара (всегда видна) -->
            <!-- Кнопка открытия сайдбара -->
-           <button class="sidebar-toggle btn border-0" id="sidebar-open">
+           <button class="sidebar-toggle btn border-0 ps-0" id="sidebar-open">
                <div class="hamburger-box">
                    <span class="line"></span>
                    <span class="line"></span>
@@ -64,28 +66,27 @@
        </div>
    </nav>
 
-   <!-- Сайдбар (вынесен за пределы nav для корректного наслоения) -->
-   <!-- Затемнение (теперь это отдельный пустой блок) -->
-   <div class="sidebar-overlay" id="sidebar-overlay"></div>
-   <!-- Сайдбар (теперь он самостоятельный и выше оверлея) -->
-   <aside class="sidebar" id="sidebar">
-       <div class="sidebar__header p-3 d-flex justify-content-end">
-           <!-- Добавил класс для инверсии крестика в темной теме -->
-           <button class="sidebar__close-btn" id="sidebar-close" aria-label="Close">
-               &times;
-           </button>
-       </div>
-       <nav class="sidebar__nav d-flex flex-column p-4">
-           <!-- Убрал text-dark, чтобы работал твой CSS -->
-           <a href="{% url 'blog:index' %}" class="sidebar__link py-2 h5 text-decoration-none">Главная</a>
-           <a href="{% url 'blog:about' %}" class="sidebar__link py-2 h5 text-decoration-none">О нас</a>
-           <a href="{% url 'blog:post_list' %}" class="sidebar__link py-2 h5 text-decoration-none">Новости</a>
-           <a href="{% url 'blog:gallery' %}" class="sidebar__link py-2 h5 text-decoration-none">Галерея</a>
-           <a href="{% url 'blog:video' %}" class="sidebar__link py-2 h5 text-decoration-none">Видеоконтент</a>
-           <a href="{% url 'blog:audio' %}" class="sidebar__link py-2 h5 text-decoration-none">Аудиоконтент</a>
-           <a href="{% url 'blog:contacts' %}" class="sidebar__link py-2 h5 text-decoration-none">Контакты</a>
-       </nav>
-   </aside>
+
+<!-- Затемнение (Overlay) -->
+<div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+<!-- Сайдбар -->
+<aside class="sidebar" id="sidebar">
+    <div class="sidebar__header p-3 d-flex justify-content-end">
+        <button class="sidebar__close-btn" id="sidebar-close" aria-label="Close">
+            &times;
+        </button>
+    </div>
+    <nav class="sidebar__nav d-flex flex-column p-4">
+        <a href="{% url 'blog:index' %}" class="sidebar__link">Главная</a>
+        <a href="{% url 'blog:about' %}" class="sidebar__link">О нас</a>
+        <a href="{% url 'blog:post_list' %}" class="sidebar__link">Новости</a>
+        <a href="{% url 'blog:gallery' %}" class="sidebar__link">Галерея</a>
+        <a href="{% url 'blog:video' %}" class="sidebar__link">Видеоконтент</a>
+        <a href="{% url 'blog:audio' %}" class="sidebar__link">Аудиоконтент</a>
+        <a href="{% url 'blog:contacts' %}" class="sidebar__link">Контакты</a>
+    </nav>
+</aside>
 
     <!-- 2. Уведомления (Alerts) -->
     <div class="container mt-3">
@@ -177,8 +178,8 @@
             </div>
         </footer>
 
-    <!-- Bootstrap 5 JS Bundle (включает Popper) -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+    <!-- Подключение JS Bootstrap 5.3.3 (включая Popper.js для работы выпадающих меню, всплывающих подсказок и т.д.) -->
+    <script src="https://cdn.jsdelivr.net" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <script src="{% static 'js/my_scripts.js' %}"></script>
     {% block extra_js %}{% endblock %}
 </body>

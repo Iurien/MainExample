@@ -1,5 +1,5 @@
 from django.urls import path, include
-from .views import PostListView, PostDetailView, IndexView, ContactsView, GalleryView, VideoView, AudioListView, register, AboutPageView
+from .views import PostListView, PostDetailView, IndexView, ContactsView, GalleryView, AudioListView, register, AboutPageView, VideoListView
 from django.contrib.auth import views as auth_views
 from . import views
 
@@ -11,7 +11,7 @@ urlpatterns = [
     path('about/', AboutPageView.as_view(), name='about'),
     path('contacts/', ContactsView.as_view(), name='contacts'),
     path('gallery/', GalleryView.as_view(), name='gallery'),
-    path('video/', VideoView.as_view(), name='video'),
+    path('video/', VideoListView.as_view(), name='video'),
     path('audio/', AudioListView.as_view(), name='audio'),
     # Для списка постов
     path('post_list/', PostListView.as_view(), name='post_list'),

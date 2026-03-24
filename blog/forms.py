@@ -1,6 +1,7 @@
 from django import forms
 from .models import ProjectRequest,Comment, Feedback
 
+
 class ProjectRequestForm(forms.ModelForm):
     class Meta:
         model = ProjectRequest
@@ -43,9 +44,24 @@ class FeedbackForm(forms.ModelForm):
         model = Feedback
         fields = ['name', 'email', 'message']
         widgets = {
-            'name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Ваше имя'}),
-            'email': forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'Email для связи'}),
-            'message': forms.Textarea(attrs={'class': 'form-control', 'rows': 4, 'placeholder': 'Ваш вопрос...'}),
+            'name': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Ваше имя',
+            }),
+            'email': forms.EmailInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'name@example.com',
+            }),
+            'message': forms.Textarea(attrs={
+                'class': 'form-control',
+                'placeholder': 'Введите ваше сообщение здесь...',
+                'rows': 4,  # Уменьшим высоту текстового поля
+            }),
+        }
+        labels = {
+            'name': 'Имя',
+            'email': 'Электронная почта',
+            'message': 'Сообщение',
         }
 
 

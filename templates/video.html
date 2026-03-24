@@ -4,7 +4,32 @@
 {% block title %}Video{% endblock %}
 
 {% block content %}
-    <h1>Добро пожаловать на нашу страницу видео!</h1>
-    <!-- Навигация -->
-        <a class="menu-toggle rounded" href="#"><i class="fas fa-bars"></i></a>
+<div class="container mt-4">
+    <h1 class="mb-4">Видеоконтент</h1>
+    <h2>Добро пожаловать на нашу страницу видео!</h2>
+    <div class="row">
+        {% for video in videos %}
+        <div class="col-md-6 mb-4">
+            <div class="card h-100">
+                <!-- Конвертация ссылки YouTube в embed формат через метод модели -->
+                <div class="ratio ratio-16x9">
+    <iframe src="{{ video.get_embed_url }}"
+            title="{{ video.title }}"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen>
+    </iframe>
+</div>
+                <div class="card-body">
+                    <h5 class="card-title">{{ video.title }}</h5>
+                    <p class="card-text text-muted">{{ video.description|truncatewords:20 }}</p>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12">
+            <p>Видео пока не добавлено.</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
 {% endblock %}
